@@ -13,8 +13,8 @@
 <script>
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import Menu from '@/components/Menu';
-import Nav from '@/components/Nav';
+import Menu from '@/secure/components/Menu';
+import Nav from '@/secure/components/Nav';
 import axios from 'axios';
 
 export default {
