@@ -1,29 +1,63 @@
 <template>
-<form class="form-signin">
+<form class="form-signin" @submit.prevent="submit">
   <h1 class="h3 mb-3 font-weight-normal">Please Register</h1>
 
   <label for="first_name" class="sr-only">First Name</label>
-  <input type="text" id="first_name" class="form-control" placeholder="First Name" required>
+  <input type="text" id="first_name" class="form-control" placeholder="First Name" required v-model="firstName">
 
   <label for="last_name" class="sr-only">Last Name</label>
-  <input type="text" id="last_name" class="form-control" placeholder="Last Name" required>
+  <input type="text" id="last_name" class="form-control" placeholder="Last Name" required v-model="lastName">
 
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required v-model="email">
 
   <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required v-model="password">
 
   <label for="passwordConfirm" class="sr-only">Password Confirm</label>
-  <input type="password" id="passwordConfirm" class="form-control" placeholder="Password Confirm" required>
+  <input type="password" id="passwordConfirm" class="form-control" placeholder="Password Confirm" required v-model="passwordConfirm">
   
   <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 </form>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
 export default {
-name: 'Register'
+name: 'Register',
+  setup() {
+    const router = useRouter();
+
+    const firstName = ref('');
+    const lastName = ref('');
+    const email = ref('');
+    const password = ref('');
+    const passwordConfirm = ref('');
+
+    const submit = async () => {
+      const response = await axios.post('http://localhost:8000/api/register', {
+        first_name: firstName.value,
+        last_name: lastName.value,
+        email: email.value,
+        password: password.value,
+        password_confirm: passwordConfirm.value
+      });
+
+      await router.push('/login');
+    }
+
+    return {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirm,
+      submit
+    }
+  }
 }
 </script>
 
