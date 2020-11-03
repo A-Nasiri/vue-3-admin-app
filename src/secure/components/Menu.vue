@@ -3,10 +3,10 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <router-link to="/" class="nav-link active">
-              Dashboard 
-            </router-link>
-            <router-link to="/users" class="nav-link active">Users</router-link>
+            <router-link to="/dashboard" active-class="active" class="nav-link">Dashboard</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/users" active-class="active" class="nav-link">Users</router-link>
           </li>
         </ul>
       </div>
