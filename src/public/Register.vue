@@ -38,7 +38,7 @@ name: 'Register',
     const passwordConfirm = ref('');
 
     const submit = async () => {
-      const response = await axios.post('http://localhost:8000/api/register', {
+      const response = await axios.post('register', {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
