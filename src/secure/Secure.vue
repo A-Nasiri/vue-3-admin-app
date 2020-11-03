@@ -4,43 +4,30 @@
   <div class="row">
     <Menu />
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <h2>Section title</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-              <th>Header</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-              <td>dolor</td>
-              <td>sit</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <router-view />
     </main>
   </div>
 </div>
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import Menu from '@/components/Menu';
 import Nav from '@/components/Nav';
+import axios from 'axios';
 
 export default {
  name: 'Secure',
  components: {
     Menu,
     Nav
+  },
+  setup() {
+    onMounted(async () => {
+      const response = await axios.get('user');
+
+      console.log(response);
+    });
   }
 }
 </script>
