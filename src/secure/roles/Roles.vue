@@ -1,4 +1,9 @@
 <template>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="btn-toolbar mb-2 mb-md-0">
+    <router-link to="/roles/create" class="btn btn-sm btn-outline-secondary">Add</router-link>
+    </div>
+  </div>
   <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -22,13 +27,14 @@
             </tr>
           </tbody>
         </table>
-    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import {Entity} from "@/interfaces/entity";
+import { Entity } from "@/interfaces/entity";
+import { Role } from '@/classes/role';
 
 export default {
  name: 'Roles',
@@ -38,7 +44,14 @@ export default {
      onMounted(async () => {
       const response = await axios.get('roles');
 
-      roles.value = response.data.data.slice(0, 3);
+      const removeDuplicates = (item: Role) => {
+          if (item.permissions.length > 1) {
+              return true;
+          }
+      };
+
+      const rolesArr = response.data.data.filter(removeDuplicates);
+      roles.value = rolesArr;
     });
 
     const del = async (id: number) => {
