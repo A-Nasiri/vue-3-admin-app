@@ -3,16 +3,30 @@
     <div class="form-group row">
       <label for="name" class="col-sm-2 col-form-label">Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="name" id="name" v-model="name"/>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="name"
+          v-model="name"
+        />
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">Permissions</label>
       <div class="col-sm-10">
-        <div class="form-check form-check-inline col-3" v-for="permission in permissions" :key="permission.id">
-          <input class="form-check-input" type="checkbox" :value="permission.id"
-          @change="select(permission.id, $event.target.checked)"/>
+        <div
+          class="form-check form-check-inline col-3"
+          v-for="permission in permissions"
+          :key="permission.id"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :value="permission.id"
+            @change="select(permission.id, $event.target.checked)"
+          />
           <label class="form-check-label">{{ permission.name }}</label>
         </div>
       </div>
@@ -24,51 +38,49 @@
 
 <script lang="ts">
 import { ref, onMounted } from 'vue';
-import {useRouter} from "vue-router";
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
- name: 'RolesCreate',
-    setup() {
-        const router = useRouter();
-        const name = ref('');
-        const permissions = ref([]);
-        const selected = ref([] as number[]);
+  name: 'RolesCreate',
+  setup() {
+    const router = useRouter();
+    const name = ref('');
+    const permissions = ref([]);
+    const selected = ref([] as number[]);
 
-        onMounted(async () => {
-            const response = await axios.get('permissions');
+    onMounted(async () => {
+      const response = await axios.get('permissions');
 
-            permissions.value = response.data.data;
-        });
+      permissions.value = response.data.data;
+    });
 
-        const select = (id: number, checked: boolean) => {
-            if (checked) {
-                selected.value = [...selected.value, id];
-                return;
-            }
+    const select = (id: number, checked: boolean) => {
+      if (checked) {
+        selected.value = [...selected.value, id];
+        return;
+      }
 
-            selected.value = selected.value.filter(s => s !== id);
-        };
+      selected.value = selected.value.filter((s) => s !== id);
+    };
 
-        const submit = async () => {
-            await axios.post('roles', {
-                name: name.value,
-                permissions: selected.value
-            });
+    const submit = async () => {
+      await axios.post('roles', {
+        name: name.value,
+        permissions: selected.value,
+      });
 
-            await router.push('/roles');
-        };
+      await router.push('/roles');
+    };
 
-        return {
-            name,
-            permissions,
-            select,
-            submit
-        }
-    }
-}
+    return {
+      name,
+      permissions,
+      select,
+      submit,
+    };
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,53 +1,65 @@
 <template>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+  >
     <div class="btn-toolbar mb-2 mb-md-0">
-    <router-link to="/roles/create" class="btn btn-sm btn-outline-secondary">Add</router-link>
+      <router-link to="/roles/create" class="btn btn-sm btn-outline-secondary"
+        >Add</router-link
+      >
     </div>
   </div>
   <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="role in roles" :key="role.id">
-                <td>{{ role.id }}</td>
-                <td>{{ role.name }}</td>
-                <td>
-                    <div class="btn-group mr-2">
-                        <router-link :to="`/roles/${role.id}/edit`" class="btn btn-sm btn-outline-secondary">Edit
-                        </router-link>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" @click="del(role.id)">Delete</a>
-                    </div>
-                </td>
-            </tr>
-          </tbody>
-        </table>
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="role in roles" :key="role.id">
+          <td>{{ role.id }}</td>
+          <td>{{ role.name }}</td>
+          <td>
+            <div class="btn-group mr-2">
+              <router-link
+                :to="`/roles/${role.id}/edit`"
+                class="btn btn-sm btn-outline-secondary"
+                >Edit
+              </router-link>
+              <a
+                href="javascript:void(0)"
+                class="btn btn-sm btn-outline-secondary"
+                @click="del(role.id)"
+                >Delete</a
+              >
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { Entity } from "@/interfaces/entity";
+import { Entity } from '@/interfaces/entity';
 import { Role } from '@/classes/role';
 
 export default {
- name: 'Roles',
- setup() {
-     const roles = ref([]);
+  name: 'Roles',
+  setup() {
+    const roles = ref([]);
 
-     onMounted(async () => {
+    onMounted(async () => {
       const response = await axios.get('roles');
 
       const removeDuplicates = (item: Role) => {
-          if (item.permissions.length > 1) {
-              return true;
-          }
+        if (item.permissions.length > 1) {
+          return true;
+        }
       };
 
       const rolesArr = response.data.data.filter(removeDuplicates);
@@ -59,16 +71,14 @@ export default {
         await axios.delete(`roles/${id}`);
         roles.value = roles.value.filter((e: Entity) => e.id !== id);
       }
-    }
+    };
 
-     return {
-         roles,
-         del
-     }
- }
-}
+    return {
+      roles,
+      del,
+    };
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

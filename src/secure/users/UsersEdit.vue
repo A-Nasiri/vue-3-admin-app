@@ -2,15 +2,25 @@
   <form @submit.prevent="submit">
     <div class="form-group">
       <label>First Name</label>
-      <input type="text" class="form-control" name="first_name" v-model="firstName"/>
+      <input
+        type="text"
+        class="form-control"
+        name="first_name"
+        v-model="firstName"
+      />
     </div>
     <div class="form-group">
       <label>Last Name</label>
-      <input type="text" class="form-control" name="last_name" v-model="lastName"/>
+      <input
+        type="text"
+        class="form-control"
+        name="last_name"
+        v-model="lastName"
+      />
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input type="text" class="form-control" name="email" v-model="email"/>
+      <input type="text" class="form-control" name="email" v-model="email" />
     </div>
 
     <div class="form-group">
@@ -30,12 +40,12 @@
 <script lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute } from 'vue-router';
 import { User } from '@/classes/user';
 
 export default {
- name: 'UsersCreate',
- setup() {
+  name: 'UsersCreate',
+  setup() {
     const firstName = ref('');
     const lastName = ref('');
     const email = ref('');
@@ -45,18 +55,18 @@ export default {
     const { params } = useRoute();
 
     onMounted(async () => {
-        const response = await axios.get('roles');
+      const response = await axios.get('roles');
 
-        roles.value = response.data.data.slice(0, 3);
+      roles.value = response.data.data.slice(0, 3);
 
-        const userCall = await axios.get(`users/${params.id}`);
+      const userCall = await axios.get(`users/${params.id}`);
 
-        const user: User = userCall.data.data;
+      const user: User = userCall.data.data;
 
-        firstName.value = user.first_name;
-        lastName.value = user.last_name;
-        email.value = user.email;
-        roleId.value = user.role.id;
+      firstName.value = user.first_name;
+      lastName.value = user.last_name;
+      email.value = user.email;
+      roleId.value = user.role.id;
     });
 
     const submit = async () => {
@@ -64,10 +74,10 @@ export default {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
-        role_id: roleId.value
+        role_id: roleId.value,
       });
       await router.push('/users');
-    }
+    };
 
     return {
       firstName,
@@ -75,12 +85,10 @@ export default {
       email,
       roleId,
       roles,
-      submit
-    }
- }
-}
+      submit,
+    };
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
