@@ -31,9 +31,11 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import ImageUpload from '@/secure/components/ImageUpload.vue';
 
 export default {
   name: 'ProductsCreate',
+  components: { ImageUpload },
   setup() {
     const title = ref('');
     const description = ref('');
@@ -42,7 +44,7 @@ export default {
     const router = useRouter();
 
     const submit = async () => {
-      const response = await axios.post('products', {
+      await axios.post('products', {
         title: title.value,
         description: description.value,
         image: image.value,
